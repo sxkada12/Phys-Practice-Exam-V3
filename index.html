@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Physiology & Cardiovascular Examination Portal - USMLE / NBME Board Edition</title>
+  <style>
+    :root {
+      --bg-body: #090d16;
+      --bg-card: #111827;
+      --bg-card-alt: #1a2234;
+      --bg-card-hover: #222f46;
+      --border: #2d3748;
+      --border-focus: #38bdf8;
+      --text-main: #f3f4f6;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.25);
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --success-border: #10b981;
+      --success-text: #34d399;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --danger-border: #ef4444;
+      --danger-text: #f87171;
+      --radius: 12px;
+      --font-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-main);
+      font-family: var(--font-base);
+      line-height: 1.6;
+      padding-bottom: 90px;
+    }
+
+    header {
+      background: linear-gradient(180deg, #111827 0%, rgba(9, 13, 22, 0.95) 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 20px 24px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.025em;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      position: sticky;
+      top: 104px;
+      z-index: 99;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      border-color: var(--accent);
+      background: var(--bg-card-alt);
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #030712;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 28px auto;
+      padding: 0 16px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .dashboard-banner {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .dashboard-banner .banner-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .dashboard-banner .score-display {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .mcq-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .question-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
+
+    .question-stem {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .lead-in {
+      font-weight: 700;
+      color: #fff;
+      margin-top: 10px;
+      display: block;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .option-btn {
+      text-align: left;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background: var(--bg-card-hover);
+      border-color: #4b5563;
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 24px;
+    }
+
+    .option-btn.selected-correct {
+      background: var(--success-bg) !important;
+      border-color: var(--success-border) !important;
+      color: var(--success-text) !important;
+    }
+
+    .option-btn.selected-incorrect {
+      background: var(--danger-bg) !important;
+      border-color: var(--danger-border) !important;
+      color: var(--danger-text) !important;
+    }
+
+    .option-btn.highlight-correct {
+      border-color: var(--success-border) !important;
+      background: rgba(16, 185, 129, 0.08) !important;
+    }
+
+    .explanation-box {
+      display: none;
+      background: #090f1e;
+      border: 1px solid #1e293b;
+      border-left: 4px solid var(--accent);
+      padding: 18px;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.9rem;
+      margin-top: 18px;
+    }
+
+    .explanation-box h4 {
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .explanation-item {
+      margin-bottom: 8px;
+      color: #cbd5e1;
+    }
+
+    .explanation-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .explanation-item strong {
+      color: #fff;
+      display: inline-block;
+      width: 28px;
+    }
+
+    .matching-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    }
+
+    .matching-row {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+    }
+
+    .matching-row:last-child {
+      border-bottom: none;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    select:focus {
+      border-color: var(--accent);
+    }
+
+    .qa-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    }
+
+    .clinical-stem {
+      color: #cbd5e1;
+      margin-top: 10px;
+      margin-bottom: 16px;
+      font-size: 0.98rem;
+    }
+
+    .prompt-list {
+      margin: 0 0 18px 22px;
+      color: #e2e8f0;
+    }
+
+    .prompt-list li {
+      margin-bottom: 6px;
+    }
+
+    .user-input-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+
+    .interactive-textarea {
+      width: 100%;
+      background: #090d16;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-main);
+      padding: 14px 16px;
+      font-family: var(--font-base);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      resize: vertical;
+      min-height: 140px;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .interactive-textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 8px var(--accent-glow);
+    }
+
+    .interactive-textarea.long-field {
+      min-height: 200px;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: flex-start;
+      gap: 12px;
+    }
+
+    .action-btn {
+      padding: 10px 20px;
+      background: var(--bg-card-alt);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .action-btn:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--accent);
+    }
+
+    .action-btn.primary {
+      background: var(--accent);
+      color: #030712;
+      border-color: var(--accent);
+      font-weight: 700;
+    }
+
+    .action-btn.primary:hover {
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .model-answer-drawer {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background: #090f1e;
+      border-radius: 8px;
+      border-left: 4px solid var(--accent);
+      border-top: 1px solid #1e293b;
+      border-right: 1px solid #1e293b;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    @media (max-width: 640px) {
+      .matching-row {
+        grid-template-columns: 1fr;
+      }
+      header h1 {
+        font-size: 1.45rem;
+      }
+      .dashboard-banner {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Physiology & Autonomics Board Examination Portal</h1>
+  <p>Step-style clinical vignettes testing sensory neurophysiology, fluid dynamics, cardiac electrophysiology, and shock syndromes. Equal answer distribution (6 each of A, B, C, D, and E).</p>
+</header>
+
+<div class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('mcq-tab')">Board Vignettes (30)</button>
+  <button class="tab-btn" onclick="switchTab('matching-tab')">Matching Concepts</button>
+  <button class="tab-btn" onclick="switchTab('short-tab')">Short Answer (Clinical)</button>
+  <button class="tab-btn" onclick="switchTab('long-tab')">Long Answer (Integrative)</button>
+</div>
+
+<div class="container">
+
+  <!-- TAB 1: MCQ -->
+  <div id="mcq-tab" class="tab-content active">
+    <div class="dashboard-banner">
+      <div class="banner-desc">USMLE / NBME Format: Vignette stems followed by second- and third-order physiological lead-ins. Instant item rationales reveal upon selection.</div>
+      <div class="score-display">Score: <span id="user-score">0</span> / 30</div>
+    </div>
+    <div id="mcq-container"></div>
+  </div>
+
+  <!-- TAB 2: MATCHING -->
+  <div id="matching-tab" class="tab-content">
+    <div class="matching-card">
+      <h2 style="margin-bottom: 8px;">Receptor & Regulatory Mechanics Matching</h2>
+      <p style="color: var(--text-muted); margin-bottom: 24px;">Match each autonomic receptor, vasoactive agent, or reflex sensor in Column A with its primary signal transduction mechanism and physiological role from Column B.</p>
+      <div id="matching-list"></div>
+      <button class="action-btn primary" style="margin-top: 24px;" onclick="checkMatchingAnswers()">Verify Matching Answers</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: SHORT ANSWER -->
+  <div id="short-tab" class="tab-content">
+    <div class="qa-card">
+      <h3>Short Answer: Pathophysiology of Decompensated & Irreversible Shock</h3>
+      <p class="clinical-stem">
+        A 64-year-old intensive care patient with untreated severe urosepsis exhibits progressive hypotension despite fluid administration. Blood pressure is 68/40 mmHg, arterial blood gas reveals profound metabolic acidosis with elevated serum lactic acid, and physical examination demonstrates pale skin, weak pulses, altered mental status, and a declining heart rate.
+      </p>
+      <ul class="prompt-list">
+        <li>Identify the cellular cause of lactic acid accumulation during the progression of shock, and explain why the liver cannot effectively clear it in this state.</li>
+        <li>Explain what happens to active ion transport (specifically the Na+/K+ ATPase pump) and fluid movement between compartments during Stage 2 (decompensation).</li>
+        <li>Contrast the physiological reversibility and responsiveness to blood/fluid transfusions between progressive compensated shock and Stage 3 (irreversible/refractory) shock.</li>
+      </ul>
+
+      <label class="user-input-label" for="sa-input">Your Written Response & Mechanistic Breakdown:</label>
+      <textarea id="sa-input" class="interactive-textarea" placeholder="Detail the cellular metabolic failure, the failure of the active sodium-potassium pump, and the clinical features defining the irreversible stage..."></textarea>
+      
+      <div class="action-row">
+        <button class="action-btn" onclick="toggleVisibility('sa-answer')">Show / Hide Official Model Solution</button>
+      </div>
+
+      <div id="sa-answer" class="model-answer-drawer">
+        <h4 style="color: var(--accent); margin-bottom: 8px;">Official Model Solution & Rubric:</h4>
+        <p><strong>1. Cellular Cause of Acidosis and Impaired Hepatic Clearance:</strong></p>
+        <ul style="margin-left: 20px; margin-top: 6px;">
+          <li>Severe tissue hypoperfusion causes cellular hypoxia, leaving mitochondria unable to produce ATP via oxidative phosphorylation[cite: 2].</li>
+          <li>Cells transition to anaerobic respiration, leading to the rapid accumulation of pyruvic acid and lactic acid, resulting in metabolic acidosis[cite: 2].</li>
+          <li>Under normal physiological conditions, the liver clears excess lactate and pyruvate via gluconeogenesis/oxidation; however, because this hepatic clearance process is strictly oxygen-dependent and oxygen is absent due to hypoperfusion, lactate continues to accumulate in the bloodstream[cite: 2].</li>
+        </ul>
+        <p style="margin-top: 10px;"><strong>2. Failure of Active Ion Transport and Fluid Shifts (Stage 2):</strong></p>
+        <ul style="margin-left: 20px; margin-top: 6px;">
+          <li>Due to ATP depletion, the primary active transport <strong>Na+/K+ ATPase pump breaks down</strong>[cite: 2]. Intracellular sodium and water accumulate, leading to cell swelling and membrane damage[cite: 2].</li>
+          <li>Simultaneously, precapillary sphincters constrict, histamine is released, and capillary permeability increases, resulting in the extravasation of intravenous fluid and plasma proteins into the surrounding interstitial tissues[cite: 2].</li>
+          <li>As plasma fluid is lost from the vascular space, blood viscosity increases, further aggravating microcirculatory stasis and capillary sludging[cite: 2].</li>
+        </ul>
+        <p style="margin-top: 10px;"><strong>3. Progression to Stage 3 (Irreversible/Refractory Shock):</strong></p>
+        <ul style="margin-left: 20px; margin-top: 6px;">
+          <li>In earlier progressive stages, aggressive fluid restoration and transfusions can restore central venous return and cardiac output, making the condition treatable and reversible[cite: 2].</li>
+          <li>Stage 3 (refractory/irreversible shock) represents a critical <strong>point of no return</strong> characterized by widespread cellular destruction, vital organ failure, severe refractory hypotension, declining cardiac output and heart rate, and loss of consciousness[cite: 2]. At this final stage, cellular and microvascular damage is irreversible, and blood transfusions will not save the patient[cite: 2].</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 4: LONG ANSWER -->
+  <div id="long-tab" class="tab-content">
+    <div class="qa-card">
+      <h3>Long Answer: Baroreflex Failure Under α1-Adrenergic Blockade</h3>
+      <p class="clinical-stem">
+        A 76-year-old female taking a selective α1-adrenergic antagonist for hypertension stands up abruptly from bed to answer the telephone. She experiences acute lightheadedness, blurred vision, and collapses to the floor, regaining consciousness within 15 seconds. EMS records a supine blood pressure of 135/85 mmHg and a standing blood pressure of 88/52 mmHg with a heart rate of 118 bpm.
+      </p>
+      <ul class="prompt-list">
+        <li>Identify the clinical diagnosis for this postural hemodynamic change.</li>
+        <li>Trace the arterial baroreflex arc that produced her compensatory tachycardia (including receptors, afferent nerves, medullary integrating nuclei, efferent branches, and target cardiac receptors).</li>
+        <li>Explain why her α1-blocker prevented adequate peripheral vascular compensation, causing syncope despite the marked increase in heart rate.</li>
+      </ul>
+
+      <label class="user-input-label" for="la-input">Your Written Response & Mechanistic Breakdown:</label>
+      <textarea id="la-input" class="interactive-textarea long-field" placeholder="Provide your detailed multi-step explanation here, detailing the baroreceptor reflex arc, autonomic efferents, and the pharmacological mechanism of vascular failure..."></textarea>
+      
+      <div class="action-row">
+        <button class="action-btn" onclick="toggleVisibility('la-answer')">Show / Hide Official Model Solution</button>
+      </div>
+
+      <div id="la-answer" class="model-answer-drawer">
+        <h4 style="color: var(--accent); margin-bottom: 8px;">Official Model Solution & Rubric:</h4>
+        <p><strong>1. Clinical Diagnosis:</strong> Orthostatic (postural) hypotension (defined as a sustained drop in systolic BP ≥20 mmHg or diastolic BP ≥10 mmHg upon standing)[cite: 2].</p>
+        <p><strong>2. Baroreflex Arc for Compensatory Tachycardia:</strong></p>
+        <ul style="margin-left: 20px; margin-top: 6px;">
+          <li><strong>Sensory Detection:</strong> Standing rapidly causes gravitational blood pooling in lower extremity capacitance veins, dropping central blood volume, venous return, stroke volume, and arterial pressure[cite: 2, 7]. This unloads high-pressure baroreceptors in the carotid sinus and aortic arch, decreasing their action potential firing frequency[cite: 1, 2, 3].</li>
+          <li><strong>Afferent Pathway:</strong> Signals travel via the carotid sinus nerve (branch of CN IX) and the aortic depressor nerve (branch of CN X) to the <strong>Nucleus Tractus Solitarius (NTS)</strong> in the dorsal medulla[cite: 3].</li>
+          <li><strong>Central Processing:</strong> Reduced excitatory input to the NTS disinhibits the rostral ventrolateral medulla (RVLM/vasomotor area) and reduces excitation of the cardioinhibitory area (nucleus ambiguus and dorsal motor nucleus of CN X)[cite: 3].</li>
+          <li><strong>Efferent Pathway & Receptors:</strong> Parasympathetic vagal outflow to the SA node is withdrawn (reducing ACh binding at M2 receptors)[cite: 1, 3]. Concurrently, sympathetic preganglionic fibers stimulate postganglionic cardiac nerves to release norepinephrine onto <strong>β1 adrenergic receptors</strong> on pacemaker cells (coupling to Gs to increase cAMP and If/Ca2+ currents)[cite: 1, 3, 5], accelerating Phase 4 spontaneous depolarization to produce reflex tachycardia (118 bpm)[cite: 2, 5].</li>
+        </ul>
+        <p style="margin-top: 10px;"><strong>3. Pharmacological Impairment:</strong></p>
+        <p>Under normal conditions, sympathetic outflow stimulates vascular smooth muscle α1 receptors coupled to Gq/PLC/IP3, producing arteriolar vasoconstriction (raising Total Peripheral Resistance, TPR) and venoconstriction (mobilizing venous reservoir volume back to the heart to restore preload)[cite: 1, 3, 7]. Because her α1 receptors are competitively blocked, systemic arterioles cannot constrict (preventing a compensatory rise in SVR/TPR) and veins remain distended (preventing restoration of venous return and stroke volume)[cite: 2, 3, 7]. Even though the heart rate accelerates via unblocked cardiac β1 receptors, MAP remains severely depressed (MAP = CO × TPR), compromising cerebral perfusion and precipitating syncope[cite: 2, 3, 6].</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 30 Board-style Vignettes (NBME / USMLE Format)
+  const rawQuestions = [
+    {
+      q: "A 54-year-old male with stable angina undergoes a pharmacologic dobutamine stress echocardiogram. Intravenous infusion of the agent stimulates adenylyl cyclase activity in ventricular cardiomyocytes, leading to a marked increase in stroke volume and ejection fraction.<span class='lead-in'>Which of the following intracellular signaling cascades mediates this positive inotropic response?</span>",
+      options: [
+        { text: "Activation of β1 adrenergic receptors coupled to Gs, increasing cAMP and intracellular calcium", isCorrect: true, rat: "Correct. Dobutamine and norepinephrine stimulate myocardial β1 receptors coupled to Gs, activating adenylyl cyclase to increase cAMP, which activates PKA to phosphorylate L-type calcium channels and increase inotropy[cite: 1, 3, 5]." },
+        { text: "Activation of β2 adrenergic receptors coupled to Gi, decreasing cyclic AMP and intracellular calcium", isCorrect: false, rat: "Incorrect. β2 adrenergic receptors couple to Gs (not Gi) and mediate vascular and bronchial smooth muscle relaxation[cite: 1, 6]." },
+        { text: "Activation of α1 adrenergic receptors coupled to Gq, opening voltage-gated potassium channels", isCorrect: false, rat: "Incorrect. α1 receptors couple to Gq and stimulate phospholipase C to contract vascular smooth muscle[cite: 1, 6]." },
+        { text: "Activation of M2 muscarinic receptors coupled to Gi, promoting opening of GIRK channels", isCorrect: false, rat: "Incorrect. M2 receptors are parasympathetic and decrease heart rate by opening GIRK channels[cite: 1, 3, 5]." },
+        { text: "Activation of α2 adrenergic receptors coupled to Gs, stimulating adenylyl cyclase", isCorrect: false, rat: "Incorrect. α2 receptors couple to Gi (not Gs) and inhibit adenylyl cyclase presynaptically[cite: 1]." }
+      ]
+    },
+    {
+      q: "A 68-year-old male with a 20-year history of poorly controlled essential hypertension presents to the clinic with progressive exertional dyspnea. Echocardiography demonstrates marked concentric left ventricular hypertrophy. Cardiac auscultation reveals a low-frequency presystolic gallop heard best over the apex in the left lateral decubitus position, occurring just prior to the first heart sound (S1).<span class='lead-in'>Which of the following physiological mechanisms is directly responsible for this patient's extra heart sound?</span>",
+      options: [
+        { text: "Forceful atrial contraction pushing blood into a stiff, non-compliant ventricle", isCorrect: true, rat: "Correct. An S4 gallop is produced late in diastole during atrial systole when the atrium contracts against a stiff, non-compliant, hypertrophied ventricle[cite: 4]." },
+        { text: "Rapid passive ventricular filling into a compliant chamber during early diastole", isCorrect: false, rat: "Incorrect. Rapid passive filling into a compliant or volume-overloaded ventricle produces an S3 sound in early diastole[cite: 4]." },
+        { text: "Delayed closure of the pulmonic valve caused by increased right ventricular filling", isCorrect: false, rat: "Incorrect. Delayed closure of the pulmonic valve during inspiration produces splitting of S2[cite: 4]." },
+        { text: "Sudden deceleration of blood against an incompletely opened, stenotic aortic valve", isCorrect: false, rat: "Incorrect. Aortic stenosis produces a midsystolic crescendo-decrescendo ejection murmur[cite: 4]." },
+        { text: "Retrograde jet flow across an incompetent mitral valve into the left atrium during systole", isCorrect: false, rat: "Incorrect. Mitral regurgitation produces a holosystolic blowing murmur[cite: 4]." }
+      ]
+    },
+    {
+      q: "In an experimental physiology preparation, isolated mesenteric resistance arterioles are perfused under a constant mean arterial driving pressure of 100 mmHg. Infusion of an experimental vasoconstrictor decreases the internal radius of the vessels from 1.0 mm to 0.5 mm without altering vessel length or fluid viscosity.<span class='lead-in'>According to the Hagen-Poiseuille relationship, how do vascular resistance and blood flow change across this vascular bed?</span>",
+      options: [
+        { text: "Resistance increased by 16-fold; blood flow decreased by 16-fold", isCorrect: true, rat: "Correct. By Poiseuille's law, resistance is inversely proportional to r^4 (R = 8ηL / πr^4)[cite: 7]. Halving the radius increases resistance by (2)^4 = 16-fold, decreasing flow 16-fold[cite: 7]." },
+        { text: "Resistance decreased by 4-fold; blood flow increased by 4-fold", isCorrect: false, rat: "Incorrect. Decreasing vessel radius increases vascular resistance and decreases flow[cite: 6, 7]." },
+        { text: "Resistance increased by 8-fold; blood flow decreased by 8-fold", isCorrect: false, rat: "Incorrect. Resistance is proportional to 1/r^4, not 1/r^3[cite: 7]." },
+        { text: "Resistance increased by 2-fold; blood flow decreased by 2-fold", isCorrect: false, rat: "Incorrect. A 2-fold change would imply a linear relationship rather than a fourth-power dependency[cite: 7]." },
+        { text: "Resistance decreased by 16-fold; blood flow increased by 16-fold", isCorrect: false, rat: "Incorrect. Vasoconstriction markedly increases resistance and reduces blood flow[cite: 6, 7]." }
+      ]
+    },
+    {
+      q: "A healthy 24-year-old medical student transitions rapidly from a supine posture to an upright standing position on a tilt table. Within the first two seconds, before neural baroreflex mechanisms can fully compensate, approximately 600 mL of blood shifts caudally.<span class='lead-in'>Which sequence of immediate hemodynamic alterations occurs prior to baroreflex activation?</span>",
+      options: [
+        { text: "Gravitational pooling of blood in lower extremities → decreased central venous return → transient drop in arterial pressure", isCorrect: true, rat: "Correct. Gravitational pooling in dependent limbs decreases central blood volume, venous return, preload, stroke volume, and arterial pressure[cite: 2, 7]." },
+        { text: "Increased thoracic blood volume → increased venous return → increased stroke volume", isCorrect: false, rat: "Incorrect. Standing shifts blood away from the thorax into dependent lower limb veins[cite: 2, 7]." },
+        { text: "Decreased lower extremity pooling → increased central venous pressure → elevated pulse pressure", isCorrect: false, rat: "Incorrect. Venous pooling in the legs increases with gravity, reducing central blood volume[cite: 2, 7]." },
+        { text: "Increased venous compliance → increased contractility → increased peripheral resistance", isCorrect: false, rat: "Incorrect. Contractility does not increase prior to reflex sympathetic activation[cite: 2]." },
+        { text: "Increased parasympathetic firing from the medulla → slowing of SA node discharge → marked hypotension", isCorrect: false, rat: "Incorrect. The baroreflex responds by decreasing parasympathetic activity, not increasing it[cite: 1, 2, 3]." }
+      ]
+    },
+    {
+      q: "A 72-year-old female is admitted to the intensive care unit with septic distributive shock secondary to pyelonephritis. Her blood pressure is 75/40 mmHg and heart rate is 125 bpm. Laboratory testing reveals severe metabolic acidosis and elevated systemic inflammatory cytokines (TNF-α and IL-1β).<span class='lead-in'>On a Guyton cardiac and vascular function diagram, what acute shifts occur prior to fluid resuscitation?</span>",
+      options: [
+        { text: "Downward shift of the vascular function curve and clockwise depression of the cardiac function curve", isCorrect: true, rat: "Correct. Systemic vasodilation and capillary leak decrease effective blood volume and venous tone (shifting the vascular curve down), while inflammatory cytokines cause myocardial depression (rotating the cardiac curve clockwise)[cite: 2, 4]." },
+        { text: "Upward shift of the vascular function curve and counter-clockwise rotation of the cardiac curve", isCorrect: false, rat: "Incorrect. An upward shift represents increased blood volume or increased venous tone[cite: 4]." },
+        { text: "Downward shift of the vascular function curve with a steeper slope, and no change in cardiac function", isCorrect: false, rat: "Incorrect. Severe sepsis releases inflammatory mediators that depress myocardial inotropy[cite: 2]." },
+        { text: "Downward shift of the vascular function curve with increased cardiac curve slope", isCorrect: false, rat: "Incorrect. Cardiac inotropy is depressed in septic shock rather than elevated[cite: 2]." },
+        { text: "Parallel upward shift of the vascular function curve and downward shift of the cardiac curve", isCorrect: false, rat: "Incorrect. Septic distributive shock involves profound vasodilation rather than venoconstriction[cite: 2]." }
+      ]
+    },
+    {
+      q: "A researcher examines the electrophysiological properties of isolated ventricular cardiomyocytes. A novel class III antiarrhythmic agent is administered, prolonging the plateau phase (Phase 2) of the action potential.<span class='lead-in'>Which of the following trans-sarcolemmal currents are directly responsible for maintaining this sustained depolarization plateau under normal conditions?</span>",
+      options: [
+        { text: "Inward ICa(L) through L-type calcium channels balanced by outward IK through delayed rectifier potassium channels", isCorrect: true, rat: "Correct. Phase 2 plateau is maintained by a balance between inward Ca2+ current through L-type channels and outward K+ current through delayed rectifier channels[cite: 5]." },
+        { text: "Rapid inward INa through voltage-gated sodium channels balanced by inward If funny current", isCorrect: false, rat: "Incorrect. Fast sodium channels mediate Phase 0 upstroke and inactivate rapidly; If funny current is unique to pacemaker tissue[cite: 5]." },
+        { text: "Inward ICa(T) transient calcium channels balanced by outward IKto potassium current", isCorrect: false, rat: "Incorrect. T-type calcium channels function in pacemaker tissue Phase 4 depolarization, not the ventricular plateau[cite: 5]." },
+        { text: "Outward sodium transport via Na+/K+ ATPase balanced by ryanodine receptor calcium leak", isCorrect: false, rat: "Incorrect. Na+/K+ ATPase maintains resting ionic gradients during Phase 4[cite: 5]." },
+        { text: "Inward chloride influx balanced by outward delayed rectifier potassium current", isCorrect: false, rat: "Incorrect. Chloride currents do not maintain the ventricular plateau[cite: 5]." }
+      ]
+    },
+    {
+      q: "A 42-year-old carpenter accidentally drops a heavy wooden beam onto his left foot. He immediately perceives a sharp, lancinating pain that allows him to pull his foot away instantly. Several seconds later, this is followed by a prolonged, sickening, dull, throbbing sensation across the dorsal foot.<span class='lead-in'>Which sensory afferent fiber type and neurotransmitter combination mediates this second, throbbing pain?</span>",
+      options: [
+        { text: "Unmyelinated C fibers; Substance P and Glutamate", isCorrect: true, rat: "Correct. Slow, dull, burning pain is carried by small, unmyelinated C fibers releasing glutamate and Substance P[cite: 8]." },
+        { text: "Aβ fibers; Acetylcholine and ATP", isCorrect: false, rat: "Incorrect. Aβ fibers are large myelinated fibers that carry non-painful touch, flutter, and vibration[cite: 8]." },
+        { text: "Myelinated Aδ fibers; CGRP and Glycine", isCorrect: false, rat: "Incorrect. Aδ fibers carry fast, sharp, easily localized first pain[cite: 8]." },
+        { text: "Type Ia sensory afferents; GABA", isCorrect: false, rat: "Incorrect. Type Ia fibers transmit proprioceptive stretch signals from muscle spindles[cite: 8]." },
+        { text: "B fibers; Norepinephrine and Dopamine", isCorrect: false, rat: "Incorrect. B fibers are autonomic preganglionic fibers[cite: 8]." }
+      ]
+    },
+    {
+      q: "A patient undergoing evaluation for dependent extremity edema has microvascular Starling pressures measured in gastrocnemius muscle capillaries: Capillary hydrostatic pressure (Pc) = 32 mmHg, Interstitial hydrostatic pressure (Pif) = -2 mmHg, Plasma oncotic pressure (Πp) = 25 mmHg, Interstitial oncotic pressure (Πif) = 3 mmHg.<span class='lead-in'>What is the Net Filtration Pressure (NFP) and the resulting direction of fluid movement?</span>",
+      options: [
+        { text: "NFP = +12 mmHg; Net ultrafiltration into the interstitium", isCorrect: true, rat: "Correct. NFP = (Pc + Πif) - (Πp + Pif) = (32 + 3) - (25 + (-2)) = 35 - 23 = +12 mmHg, promoting net ultrafiltration[cite: 7]." },
+        { text: "NFP = +2 mmHg; Net reabsorption into the capillary", isCorrect: false, rat: "Incorrect. Outward forces are Pc + Πif = 35 mmHg; inward forces are Πp + Pif = 23 mmHg[cite: 7]." },
+        { text: "NFP = +6 mmHg; Net reabsorption into the capillary", isCorrect: false, rat: "Incorrect. Outward minus inward forces equals +12 mmHg, not +6 mmHg[cite: 7]." },
+        { text: "NFP = -8 mmHg; Net ultrafiltration into the interstitium", isCorrect: false, rat: "Incorrect. A positive sign represents net outward filtration, not inward reabsorption[cite: 7]." },
+        { text: "NFP = +4 mmHg; Dynamic equilibrium with zero net movement", isCorrect: false, rat: "Incorrect. Dynamic equilibrium requires an NFP of 0 mmHg[cite: 7]." }
+      ]
+    },
+    {
+      q: "A 60-year-old male presents to the emergency department with 45 minutes of diaphoresis and substernal chest pressure radiating to his left jaw. Electrocardiography reveals 3-mm ST-segment elevations and hyperacute T waves in precordial leads V1 through V4.<span class='lead-in'>Acute thrombotic occlusion of which coronary artery is the most common cause of this electrocardiographic pattern?</span>",
+      options: [
+        { text: "Left anterior descending artery (LAD)", isCorrect: true, rat: "Correct. The left anterior descending (LAD) artery is the most common artery involved in a myocardial infarction, perfusing the anterior wall and septum (V1-V4)[cite: 5]." },
+        { text: "Right coronary artery (RCA)", isCorrect: false, rat: "Incorrect. RCA occlusion typically causes inferior wall MI (leads II, III, aVF)[cite: 5]." },
+        { text: "Left circumflex artery (LCx)", isCorrect: false, rat: "Incorrect. LCx occlusion affects the lateral ventricular wall[cite: 5]." },
+        { text: "Posterior descending artery (PDA)", isCorrect: false, rat: "Incorrect. PDA occlusion affects the inferior and posterior walls[cite: 5]." },
+        { text: "Acute marginal artery", isCorrect: false, rat: "Incorrect. Acute marginal branches perfuse the right ventricular myocardium[cite: 5]." }
+      ]
+    },
+    {
+      q: "A 25-year-old competitive rower reaches VO2 max during the final 500 meters of a race. Cardiac output increases from a baseline of 5.8 L/min up to 25 L/min. Splanchnic resistance arterioles undergo intense sympathetic vasoconstriction.<span class='lead-in'>Which vascular bed undergoes the greatest relative percentage reduction in its fraction of total cardiac output under these conditions?</span>",
+      options: [
+        { text: "Splanchnic circulation", isCorrect: true, rat: "Correct. Splanchnic circulation falls from ~24% of cardiac output at rest (1400 mL/min) down to ~1% (300 mL/min) during maximal exercise[cite: 2]." },
+        { text: "Skeletal muscle", isCorrect: false, rat: "Incorrect. Skeletal muscle blood flow increases from ~21% up to ~88% of cardiac output[cite: 2]." },
+        { text: "Cutaneous circulation", isCorrect: false, rat: "Incorrect. Cutaneous blood flow increases during exercise to dissipate body heat[cite: 2]." },
+        { text: "Coronary circulation", isCorrect: false, rat: "Incorrect. Coronary circulation maintains approximately 4-5% of total cardiac output[cite: 2]." },
+        { text: "Cerebral circulation", isCorrect: false, rat: "Incorrect. Cerebral circulation share drops moderately (from 13% to 3%), but splanchnic drops from 24% to 1%[cite: 2]." }
+      ]
+    },
+    {
+      q: "A 58-year-old male with paroxysmal supraventricular tachycardia is evaluated in the clinic. The physician applies unilateral pressure over the carotid bifurcation at the superior border of the thyroid cartilage, successfully converting the patient back to normal sinus rhythm.<span class='lead-in'>Which cranial nerve transmits the afferent limb of this reflex, and which medullary nucleus receives the primary sensory input?</span>",
+      options: [
+        { text: "Glossopharyngeal nerve (CN IX) to the Nucleus Tractus Solitarius (NTS)", isCorrect: true, rat: "Correct. Afferent signals from carotid sinus baroreceptors are transmitted by the glossopharyngeal nerve (CN IX) to the NTS in the medulla[cite: 3]." },
+        { text: "Vagus nerve (CN X) to the Superior Cervical Ganglion", isCorrect: false, rat: "Incorrect. CN X transmits signals from aortic arch baroreceptors, and the superior cervical ganglion is a sympathetic motor structure[cite: 3]." },
+        { text: "Trigeminal nerve (CN V) to the Ventrolateral Medulla (RVLM)", isCorrect: false, rat: "Incorrect. CN V transmits facial somatosensory information[cite: 3]." },
+        { text: "Glossopharyngeal nerve (CN IX) to the Nucleus Ambiguus directly", isCorrect: false, rat: "Incorrect. Carotid sinus afferents synapse in the NTS before interneurons project to the nucleus ambiguus[cite: 3]." },
+        { text: "Facial nerve (CN VII) to the Dorsal Motor Nucleus of the Vagus", isCorrect: false, rat: "Incorrect. CN VII mediates facial movement and anterior taste[cite: 3]." }
+      ]
+    },
+    {
+      q: "A 31-year-old patient undergoing ophthalmologic surgery receives intravenous atropine to prevent intraoperative vagal bradycardia. The drug functions as a competitive antagonist of muscarinic acetylcholine receptors.<span class='lead-in'>Which of the following cellular and electrophysiological responses occurs at the sinoatrial node following administration of this drug?</span>",
+      options: [
+        { text: "Increased heart rate due to loss of tonic parasympathetic inhibition", isCorrect: true, rat: "Correct. The heart is under tonic vagal cholinergic tone at rest via M2 receptors; blocking M2 removes this brake, increasing heart rate[cite: 1, 5]." },
+        { text: "Slower Phase 4 spontaneous depolarization in the sinoatrial node", isCorrect: false, rat: "Incorrect. M2 activation slows Phase 4 depolarization; blocking M2 accelerates it[cite: 1, 5]." },
+        { text: "Decreased conduction velocity through the atrioventricular node", isCorrect: false, rat: "Incorrect. M2 activation slows AV conduction; blocking M2 enhances AV conduction velocity[cite: 1, 5]." },
+        { text: "Hyperpolarization of resting membrane potential in pacemaker cells", isCorrect: false, rat: "Incorrect. M2 activation causes hyperpolarization; blocking M2 prevents this[cite: 5]." },
+        { text: "Inhibition of delayed rectifier potassium channels in ventricular myocytes", isCorrect: false, rat: "Incorrect. M2 antagonists do not directly inhibit delayed rectifier potassium channels[cite: 5]." }
+      ]
+    },
+    {
+      q: "A neurologist performs quantitative sensory testing on a patient with suspected sensory neuropathy. The patient can reliably distinguish two distinct points of a caliper separated by 2 mm on the index fingertip, but perceives two points separated by 20 mm on the calf as a single blunt stimulus.<span class='lead-in'>Which microanatomical feature of the peripheral sensory system explains this heightened tactile acuity on the fingertip?</span>",
+      options: [
+        { text: "The fingertip contains a significantly higher density of mechanoreceptors with smaller receptive fields", isCorrect: true, rat: "Correct. High tactile acuity in fingertips is due to high receptor density and small receptive fields with low convergence[cite: 8]." },
+        { text: "The calf possesses smaller, highly overlapping primary receptive fields with lower convergence", isCorrect: false, rat: "Incorrect. The calf has large secondary receptive fields with high primary afferent convergence[cite: 8]." },
+        { text: "Lateral inhibition operates exclusively in the lower extremities", isCorrect: false, rat: "Incorrect. Lateral inhibition operates across all somatic sensory pathways[cite: 8]." },
+        { text: "The calf somatosensory cortex representation occupies a disproportionately large surface area", isCorrect: false, rat: "Incorrect. The hand and fingers occupy a disproportionately large representation on the homunculus[cite: 8]." },
+        { text: "Merkel discs and Meissner corpuscles are entirely absent from the fingertips", isCorrect: false, rat: "Incorrect. Fingertips are densely populated with Merkel discs and Meissner corpuscles[cite: 8]." }
+      ]
+    },
+    {
+      q: "A 56-year-old male with severe peripheral arterial disease develops a chronic total occlusion of the right superficial femoral artery. Over the subsequent 6 months, digital subtraction angiography demonstrates the enlargement and structural muscularization of preexisting collateral arterioles bypassing the occlusion.<span class='lead-in'>Which biological process, triggered by elevated fluid shear stress, is responsible for this collateral vessel enlargement?</span>",
+      options: [
+        { text: "Arteriogenesis", isCorrect: true, rat: "Correct. Arteriogenesis is the remodeling and enlargement of preexisting collateral vessels triggered by fluid shear stress or inflammation[cite: 6]." },
+        { text: "Angiogenesis", isCorrect: false, rat: "Incorrect. Angiogenesis is the sprouting of new capillary beds from preexisting vessels in response to hypoxia[cite: 6]." },
+        { text: "Vasculogenesis", isCorrect: false, rat: "Incorrect. Vasculogenesis is embryonic de novo blood vessel formation from angioblasts[cite: 6]." },
+        { text: "Active hyperemia", isCorrect: false, rat: "Incorrect. Active hyperemia is an acute metabolic vasodilation[cite: 6]." },
+        { text: "Reactive hyperemia", isCorrect: false, rat: "Incorrect. Reactive hyperemia is transient flow elevation following release of an occlusion[cite: 6]." }
+      ]
+    },
+    {
+      q: "An 82-year-old female presents with two episodes of exertional syncope over the past month. On physical examination, a harsh, crescendo-decrescendo systolic murmur is heard best at the right second intercostal space with radiation into the carotid arteries. Left ventricular catheterization demonstrates a peak systolic pressure of 185 mmHg while the ascending aorta reaches only 110 mmHg.<span class='lead-in'>Which valvular abnormality is responsible for these clinical and hemodynamic findings?</span>",
+      options: [
+        { text: "Aortic valve stenosis", isCorrect: true, rat: "Correct. Aortic valve stenosis narrows the valve orifice and impedes systolic ejection, producing a harsh systolic ejection murmur[cite: 4]." },
+        { text: "Mitral regurgitation", isCorrect: false, rat: "Incorrect. Mitral regurgitation yields a holosystolic apical murmur[cite: 4]." },
+        { text: "Tricuspid regurgitation", isCorrect: false, rat: "Incorrect. Tricuspid regurgitation is a holosystolic murmur at the lower sternal border[cite: 4]." },
+        { text: "Aortic regurgitation", isCorrect: false, rat: "Incorrect. Aortic regurgitation produces a diastolic murmur[cite: 4]." },
+        { text: "Mitral stenosis", isCorrect: false, rat: "Incorrect. Mitral stenosis produces a diastolic murmur[cite: 4]." }
+      ]
+    },
+    {
+      q: "A clinical researcher investigates the effects of endogenous peptides on local vascular tone. Infusion of a nonapeptide into forearm resistance vessels increases endothelial intracellular calcium, stimulating the synthesis of a short-lived gas that relaxes vascular smooth muscle via cGMP production.<span class='lead-in'>Which endogenous substance is acting through this endothelial-dependent vasodilatory pathway?</span>",
+      options: [
+        { text: "Bradykinin", isCorrect: true, rat: "Correct. Bradykinin acts on endothelial receptors to stimulate NO synthase, producing NO which diffuses to vascular smooth muscle to activate guanylyl cyclase and cGMP[cite: 6]." },
+        { text: "Thromboxane A2", isCorrect: false, rat: "Incorrect. Thromboxane A2 is a vasoconstrictor acting via Gq[cite: 6]." },
+        { text: "Endothelin-1", isCorrect: false, rat: "Incorrect. Endothelin-1 is an endothelial vasoconstrictor acting via Gq[cite: 6]." },
+        { text: "Angiotensin II", isCorrect: false, rat: "Incorrect. Angiotensin II acts on AT1 receptors (Gq) to induce vasoconstriction[cite: 3, 6]." },
+        { text: "Neuropeptide Y", isCorrect: false, rat: "Incorrect. Neuropeptide Y acts as a vasoconstrictor[cite: 6]." }
+      ]
+    },
+    {
+      q: "A 34-year-old motor vehicle crash victim sustains retroperitoneal hemorrhage and presents with cold, clammy skin, a blood pressure of 80/55 mmHg, and a heart rate of 132 bpm.<span class='lead-in'>Which sensory receptor population is the first to detect this drop in systemic arterial pressure, and how does its action potential firing rate change?</span>",
+      options: [
+        { text: "High-pressure arterial baroreceptors; decreased frequency of action potential firing", isCorrect: true, rat: "Correct. High-pressure arterial baroreceptors in the carotid sinus and aortic arch detect decreased pressure and decrease their action potential firing frequency[cite: 1, 2, 3]." },
+        { text: "Low-pressure cardiopulmonary receptors; increased rate of action potential firing", isCorrect: false, rat: "Incorrect. Cardiopulmonary stretch receptors decrease firing when blood volume drops[cite: 2, 3]." },
+        { text: "Central brainstem chemoreceptors; cessation of afferent signals", isCorrect: false, rat: "Incorrect. Central chemoreceptors respond to CSF pH and CO2[cite: 3]." },
+        { text: "Peripheral carotid body glomus cells; decreased firing due to alkalosis", isCorrect: false, rat: "Incorrect. Peripheral chemoreceptors increase firing in response to severe hypoxia or acidosis[cite: 2, 3]." },
+        { text: "Renal juxtaglomerular baroreceptors; immediate inhibition of renin synthesis", isCorrect: false, rat: "Incorrect. Decreased renal perfusion pressure stimulates (not inhibits) renin release[cite: 2, 3]." }
+      ]
+    },
+    {
+      q: "A 19-year-old female presents with persistent lightheadedness, tremulousness, and palpitations upon standing. Tilt-table testing demonstrates a heart rate increase from 72 bpm supine to 118 bpm at 5 minutes of upright posture without a drop in blood pressure (BP remains 118/76 mmHg).<span class='lead-in'>Which underlying pathophysiology accounts for this clinical syndrome (POTS)?</span>",
+      options: [
+        { text: "Autonomic dysregulation with excessive, sustained sinus tachycardia upon assuming an upright posture", isCorrect: true, rat: "Correct. POTS is caused by dysautonomia leading to an excessive, sustained increase in heart rate upon standing upright[cite: 2]." },
+        { text: "Primary destruction of the adrenal cortex preventing aldosterone secretion", isCorrect: false, rat: "Incorrect. Adrenal insufficiency causes orthostatic hypotension, not POTS[cite: 2]." },
+        { text: "Complete failure of the aortic and pulmonic semilunar valves to close", isCorrect: false, rat: "Incorrect. Semilunar valve incompetence causes regurgitation[cite: 4]." },
+        { text: "Hypertrophy of the Sinoatrial node resulting in excessive vagal tone", isCorrect: false, rat: "Incorrect. POTS features profound tachycardia, not excessive vagal inhibition[cite: 2]." },
+        { text: "Congenital absence of peripheral chemoreceptors", isCorrect: false, rat: "Incorrect. Chemoreceptors are intact in POTS[cite: 2]." }
+      ]
+    },
+    {
+      q: "During a routine neurological exam of a 45-year-old male, the patellar tendon is tapped with a percussion hammer, producing brisk extension of the knee joint.<span class='lead-in'>Which receptor detects the sudden lengthening of the quadriceps muscle, and which motor neuron system contracts the intrafusal fibers to maintain receptor sensitivity during extrafusal muscle shortening?</span>",
+      options: [
+        { text: "Muscle spindle; alpha-gamma motor neuron coactivation", isCorrect: true, rat: "Correct. Muscle spindles detect changes in muscle length and rate of stretch; alpha-gamma coactivation keeps intrafusal fibers contracted to maintain sensitivity[cite: 8]." },
+        { text: "Golgi tendon organ; alpha motor neuron inhibition", isCorrect: false, rat: "Incorrect. Golgi tendon organs sense muscle tension at the tendon junction[cite: 8]." },
+        { text: "Pacinian corpuscle; sympathetic preganglionic efferent firing", isCorrect: false, rat: "Incorrect. Pacinian corpuscles sense vibration in the skin[cite: 8]." },
+        { text: "Ruffini ending; lateral inhibition via interneurons", isCorrect: false, rat: "Incorrect. Ruffini endings detect skin stretch[cite: 8]." },
+        { text: "Free nerve ending; C fiber descending modulation", isCorrect: false, rat: "Incorrect. Free nerve endings detect pain and temperature[cite: 8]." }
+      ]
+    },
+    {
+      q: "A 66-year-old male with severe ischemic cardiomyopathy is admitted in cardiogenic shock. Invasive hemodynamic monitoring reveals elevated pulmonary capillary wedge pressure, pulmonary edema, and marked systolic pump failure.<span class='lead-in'>Which combination of Left Ventricular End-Diastolic Volume (LVEDV), Stroke Volume (SV), and Ejection Fraction (EF) is characteristic of this patient's ventricular function?</span>",
+      options: [
+        { text: "Increased LVEDV, decreased SV, markedly reduced EF", isCorrect: true, rat: "Correct. Systolic failure features thin/stretched chambers unable to pump; ESV rises, blood pools to increase LVEDV, while SV and EF drop markedly[cite: 4, 5]." },
+        { text: "Decreased LVEDV, increased SV, increased EF", isCorrect: false, rat: "Incorrect. This represents a hyperdynamic circulatory state[cite: 4]." },
+        { text: "Normal LVEDV, increased SV, unchanged EF", isCorrect: false, rat: "Incorrect. A failing myocardium cannot increase stroke volume[cite: 4]." },
+        { text: "Markedly decreased LVEDV, decreased SV, increased EF", isCorrect: false, rat: "Incorrect. Ejection fraction drops significantly in systolic pump failure[cite: 4]." },
+        { text: "Decreased LVEDV, decreased SV, normal EF", isCorrect: false, rat: "Incorrect. A preserved EF pattern is typical of diastolic heart failure[cite: 5]." }
+      ]
+    },
+    {
+      q: "A 62-year-old female with non-valvular atrial fibrillation is started on oral anticoagulation with warfarin. Her prothrombin time (PT/INR) is closely monitored over several days.<span class='lead-in'>Warfarin achieves its clinical anticoagulant effect by inhibiting the enzymatic regeneration of which cofactor necessary for clotting factor maturation?</span>",
+      options: [
+        { text: "Vitamin K epoxide reductase, blocking synthesis of Factors II, VII, IX, and X", isCorrect: true, rat: "Correct. Warfarin inhibits vitamin K-dependent clotting factors II, VII, IX, X and anticoagulant proteins C and S[cite: 6]." },
+        { text: "Cyclooxygenase-1 (COX-1), blocking conversion of arachidonic acid to thromboxane", isCorrect: false, rat: "Incorrect. Aspirin irreversibly inhibits COX-1[cite: 6]." },
+        { text: "Antithrombin III, directly blocking the activation of Factor XII", isCorrect: false, rat: "Incorrect. Heparin complexes with antithrombin III[cite: 6]." },
+        { text: "Tissue plasminogen activator (tPA), preventing the breakdown of fibrin", isCorrect: false, rat: "Incorrect. tPA is an activator of plasminogen in the fibrinolytic cascade[cite: 6]." },
+        { text: "Platelet P2Y12 adenosine diphosphate (ADP) receptors, preventing aggregation", isCorrect: false, rat: "Incorrect. Clopidogrel inhibits binding of ADP to platelet receptors[cite: 6]." }
+      ]
+    },
+    {
+      q: "A 48-year-old female undergoes routine screening. Her seated blood pressure is 150/75 mmHg with a regular pulse of 70 bpm.<span class='lead-in'>What is the primary physiological basis for weighting diastolic blood pressure twice as heavily as systolic blood pressure when calculating Mean Arterial Pressure (MAP)?</span>",
+      options: [
+        { text: "MAP is weighted closer to DBP because roughly two-thirds of the resting cardiac cycle is spent in diastole", isCorrect: true, rat: "Correct. Because 2/3 of the resting cycle is spent in diastole and 1/3 in systole, MAP = DBP + 1/3(PP) = 2/3(DBP) + 1/3(SBP)[cite: 3, 4]." },
+        { text: "MAP is calculated as the simple unweighted arithmetic mean of SBP and DBP", isCorrect: false, rat: "Incorrect. An unweighted mean is inaccurate because systole and diastole durations are unequal at normal heart rates[cite: 3, 4]." },
+        { text: "MAP is equal to the pulse pressure minus the diastolic blood pressure", isCorrect: false, rat: "Incorrect. Pulse pressure is SBP - DBP[cite: 3]." },
+        { text: "MAP is heavily weighted toward SBP because peak ejection pressure exerts the greatest endothelial shear stress", isCorrect: false, rat: "Incorrect. Diastole accounts for the larger fraction of time at rest (~2/3)[cite: 3, 4]." },
+        { text: "MAP is governed entirely by diastolic pressure independent of ventricular contractility", isCorrect: false, rat: "Incorrect. Systolic pressure (and thus inotropy) contributes 1/3 of the MAP determination[cite: 3, 4]." }
+      ]
+    },
+    {
+      q: "A neurophysiology student applies a continuous 250 Hz sinusoidal mechanical vibratory stimulus to the palmar surface of a volunteer's hand. The sensory afferent fibers fire an initial burst of action potentials but become completely silent within 20 milliseconds despite continuous application of the probe.<span class='lead-in'>Which class of cutaneous encapsulated mechanoreceptors displays this rapid sensory adaptation?</span>",
+      options: [
+        { text: "Meissner corpuscles and Pacinian corpuscles", isCorrect: true, rat: "Correct. Meissner corpuscles (flutter) and Pacinian corpuscles (vibration) adapt rapidly to stimuli[cite: 8]." },
+        { text: "Merkel discs and Ruffini endings", isCorrect: false, rat: "Incorrect. Merkel discs and Ruffini endings are slowly adapting receptors[cite: 8]." },
+        { text: "Golgi tendon organs and Ruffini endings", isCorrect: false, rat: "Incorrect. Golgi tendon organs and Ruffini endings adapt slowly[cite: 8]." },
+        { text: "Free nerve endings and Merkel discs", isCorrect: false, rat: "Incorrect. Free nerve endings adapt slowly or not at all, and Merkel discs adapt slowly[cite: 8]." },
+        { text: "Muscle spindles and Ruffini corpuscles", isCorrect: false, rat: "Incorrect. Ruffini endings are slowly adapting[cite: 8]." }
+      ]
+    },
+    {
+      q: "A 30-year-old trauma victim in hemorrhagic shock experiences severe systemic hypotension. Within the renal afferent arterioles, decreased stretch of vascular baroreceptors and increased sympathetic tone trigger the release of a specialized proteolytic enzyme into the circulation.<span class='lead-in'>Which cells secrete this enzyme, and what is the primary neurohumoral pathway activated?</span>",
+      options: [
+        { text: "Decreased renal perfusion pressure stimulates granular cells to secrete renin, activating RAAS", isCorrect: true, rat: "Correct. Decreased MAP/perfusion pressure and increased sympathetic activity stimulate granular cells to release renin, initiating the RAAS pathway[cite: 2, 3]." },
+        { text: "Stretch of atrial myocytes stimulates the release of Atrial Natriuretic Peptide (ANP)", isCorrect: false, rat: "Incorrect. ANP is released in response to atrial stretch from hypervolemia, not hypovolemia[cite: 3]." },
+        { text: "Elevation in systemic blood pressure directly suppresses sympathetic output to the kidneys", isCorrect: false, rat: "Incorrect. Sympathetic outflow to the kidneys increases during hemorrhage[cite: 2, 3]." },
+        { text: "Increased renal perfusion pressure causes granular cells to cleave Angiotensinogen", isCorrect: false, rat: "Incorrect. Renin is released when perfusion pressure decreases[cite: 3]." },
+        { text: "Macula densa sensing of elevated sodium chloride delivery triggers afferent dilation", isCorrect: false, rat: "Incorrect. Decreased GFR during hemorrhage decreases NaCl delivery to the macula densa[cite: 3]." }
+      ]
+    },
+    {
+      q: "A 62-year-old male with severe chronic bronchitis (COPD) retains carbon dioxide, developing chronic respiratory acidosis (PaCO2 = 58 mmHg). Over several minutes, an increase in minute ventilation is observed.<span class='lead-in'>What is the primary biochemical mediator directly activating central chemoreceptors on the ventrolateral medulla?</span>",
+      options: [
+        { text: "Elevation in the concentration of hydrogen ions (H+) in CSF derived from diffusing CO2", isCorrect: true, rat: "Correct. CO2 crosses the blood-brain barrier and forms H+ in the CSF, which directly activates central chemoreceptors to stimulate ventilation[cite: 3]." },
+        { text: "A reduction in arterial partial pressure of oxygen (PaO2) below 60 mmHg", isCorrect: false, rat: "Incorrect. PaO2 < 60 mmHg is detected by peripheral chemoreceptors in carotid and aortic bodies[cite: 3]." },
+        { text: "Direct binding of circulating bicarbonate ions (HCO3-) crossing the blood-brain barrier", isCorrect: false, rat: "Incorrect. Bicarbonate and hydrogen ions in the blood do not readily cross the blood-brain barrier[cite: 3]." },
+        { text: "Direct mechanical stretch of capillary pericytes lining the fourth ventricle", isCorrect: false, rat: "Incorrect. Central chemoreceptors are not mechanoreceptors[cite: 3]." },
+        { text: "Parasympathetic acetylcholine binding to medullary nicotinic receptor complexes", isCorrect: false, rat: "Incorrect. Central chemoreceptors respond to metabolic protons, not nicotinic transmission[cite: 3]." }
+      ]
+    },
+    {
+      q: "A 52-year-old female takes high-dose ibuprofen daily for osteoarthritis pain. She presents to the clinic with burning epigastric discomfort, nausea, and microcytic anemia from occult upper gastrointestinal bleeding.<span class='lead-in'>Which mechanism explains why non-selective cyclooxygenase inhibition damages the gastric mucosal barrier?</span>",
+      options: [
+        { text: "Inhibition of COX prevents the synthesis of cytoprotective prostaglandins and prostacyclin from arachidonic acid", isCorrect: true, rat: "Correct. Cyclooxygenase converts arachidonic acid into prostaglandins and prostacyclin (PGI2), which protect gastrointestinal mucosa; COX inhibitors block this pathway[cite: 6]." },
+        { text: "Inhibition of COX promotes excessive platelet aggregation and occludes mucosal capillaries", isCorrect: false, rat: "Incorrect. COX-1 inhibition reduces thromboxane A2, inhibiting platelet aggregation[cite: 6]." },
+        { text: "Inhibition of COX stimulates lipoxygenase to produce excessive amounts of leukotrienes that vasoconstrict all vessels", isCorrect: false, rat: "Incorrect. While leukotriene production may rise, loss of protective prostaglandins is the direct cause of gastric mucosal breakdown[cite: 6]." },
+        { text: "Inhibition of COX increases the conversion of plasminogen to active plasmin, degrading stomach lining proteins", isCorrect: false, rat: "Incorrect. COX enzymes do not regulate the fibrinolytic conversion of plasminogen[cite: 6]." },
+        { text: "Inhibition of COX directly blocks M3 muscarinic receptors on gastric parietal cells", isCorrect: false, rat: "Incorrect. Muscarinic receptors are unaffected by NSAIDs[cite: 1]." }
+      ]
+    },
+    {
+      q: "A 21-year-old collegiate distance runner undergoes a pre-participation sports screening. An electrocardiogram demonstrates sinus rhythm with a heart rate of 52 bpm, a constant PR interval of 240 ms (0.24 seconds), a narrow QRS of 80 ms, and a 1:1 P-to-QRS ratio without non-conducted beats.<span class='lead-in'>What is the correct clinical diagnosis for this electrocardiographic tracing?</span>",
+      options: [
+        { text: "First-degree atrioventricular (AV) block", isCorrect: true, rat: "Correct. First-degree AV block is characterized by a prolonged PR interval (>200 ms) where all impulses are conducted to the ventricles[cite: 5]." },
+        { text: "Normal sinus rhythm with normal intervals", isCorrect: false, rat: "Incorrect. Normal PR interval is 0.12 to 0.20 seconds (120-200 ms); 240 ms is prolonged[cite: 5]." },
+        { text: "Mobitz Type I (Wenckebach) second-degree AV block", isCorrect: false, rat: "Incorrect. Mobitz Type I shows progressive elongation of the PR interval until a beat drops[cite: 5]." },
+        { text: "Mobitz Type II second-degree AV block", isCorrect: false, rat: "Incorrect. Mobitz Type II displays consistent PR intervals with intermittent non-conducted P waves[cite: 5]." },
+        { text: "Third-degree (complete) AV block", isCorrect: false, rat: "Incorrect. Third-degree block has no relationship between P waves and QRS complexes[cite: 5]." }
+      ]
+    },
+    {
+      q: "A 55-year-old male with alcoholic cirrhosis presents with severe jaundice, tense ascites, and bilateral lower extremity pitting edema. Laboratory analysis reveals a serum albumin level of 1.8 g/dL (reference range: 3.5-5.0 g/dL).<span class='lead-in'>Which alteration in microvascular Starling forces is the primary driving mechanism for this patient's generalized peripheral edema?</span>",
+      options: [
+        { text: "Decreased plasma colloid osmotic pressure (Πp)", isCorrect: true, rat: "Correct. Albumin is the primary contributor to plasma colloid osmotic pressure (Πp); severe liver failure reduces albumin, lowering inward reabsorptive force and causing edema[cite: 7]." },
+        { text: "Increased capillary hydrostatic pressure (Pc)", isCorrect: false, rat: "Incorrect. Portal pressure increases locally, but generalized edema in severe liver disease is driven by hypoalbuminemia[cite: 7]." },
+        { text: "Decreased interstitial hydrostatic pressure (Pif)", isCorrect: false, rat: "Incorrect. Interstitial hydrostatic pressure rises as fluid accumulates[cite: 7]." },
+        { text: "Increased capillary filtration coefficient (Kf)", isCorrect: false, rat: "Incorrect. Kf reflects capillary surface area and permeability, altered in burns or inflammation[cite: 7]." },
+        { text: "Lymphatic obstruction secondary to parasitic filariasis", isCorrect: false, rat: "Incorrect. Parasitic filariasis causes localized lymphatic obstruction[cite: 7]." }
+      ]
+    },
+    {
+      q: "A 28-year-old female presents to the emergency room with sudden-onset palpitations and lightheadedness. An electrophysiology study reveals an orthodromic atrioventricular reciprocating tachycardia utilizing an accessory bypass tract (Bundle of Kent).<span class='lead-in'>Which triad of electrophysiological properties is required to establish and perpetuate this circus-movement reentry circuit?</span>",
+      options: [
+        { text: "Two parallel conduction pathways, unidirectional block in one pathway, and slow conduction through the alternate pathway", isCorrect: true, rat: "Correct. Reentry requires two potential conduction pathways, a unidirectional block in one, and slow conduction allowing previous refractory tissue to recover[cite: 5]." },
+        { text: "Absence of gap junctions, extreme hyperkalemia, and increased funny current", isCorrect: false, rat: "Incorrect. These abnormalities cause arrest or erratic conduction failure[cite: 5]." },
+        { text: "Inactivation of L-type calcium channels, complete heart block, and enhanced automaticity", isCorrect: false, rat: "Incorrect. Complete heart block prevents circuit looping between chambers[cite: 5]." },
+        { text: "Hyperpolarization of pacemaker cells, elevated vagal tone, and long QT interval", isCorrect: false, rat: "Incorrect. Vagal hyperpolarization slows conduction but does not constitute the anatomic/functional reentry circuit triad[cite: 5]." },
+        { text: "Symmetrical conduction velocity, absent refractory period, and mechanical stretch", isCorrect: false, rat: "Incorrect. Symmetrical conduction results in bidirectional wavefront collision and extinction[cite: 5]." }
+      ]
+    },
+    {
+      q: "During a laboratory demonstration of systemic hemodynamics, an intravascular ultrasound probe measures blood flow velocity across multiple vascular segments. Flow velocity is measured at 200 mm/sec in the aorta, but falls to approximately 0.3 mm/sec within skeletal muscle capillaries.<span class='lead-in'>Which hydrodynamic principle accounts for this dramatic reduction in blood flow velocity within the microcirculation?</span>",
+      options: [
+        { text: "Velocity of flow (v) is inversely proportional to total cross-sectional area (A), which peaks in the capillary network (v = Q/A)", isCorrect: true, rat: "Correct. Velocity of blood flow is inversely proportional to total cross-sectional area (v = Q/A); the massive total area of capillaries produces the slowest velocity to allow solute exchange[cite: 7]." },
+        { text: "Flow is inversely proportional to the square of total tube length", isCorrect: false, rat: "Incorrect. Poiseuille's law relates length to resistance, not cross-sectional velocity[cite: 7]." },
+        { text: "Blood viscosity drops to zero in small microvessels", isCorrect: false, rat: "Incorrect. Viscosity decreases in small vessels but remains greater than zero[cite: 7]." },
+        { text: "Capillaries actively constrict to eliminate shear stress", isCorrect: false, rat: "Incorrect. Capillaries lack smooth muscle and cannot actively constrict[cite: 7]." },
+        { text: "High capillary compliance allows them to store 70% of total volume", isCorrect: false, rat: "Incorrect. Veins act as the primary volume reservoir, not capillaries[cite: 7]." }
+      ]
+    }
+  ];
+
+  // Specific pseudorandom key pattern with exactly 6 of each letter:
+  // 0=A (6), 1=B (6), 2=C (6), 3=D (6), 4=E (6) -> Total 30
+  const randomizedAnswerPattern = [
+    2, 0, 4, 1, 3,
+    0, 4, 1, 2, 3,
+    1, 4, 0, 3, 2,
+    3, 1, 4, 2, 0,
+    4, 2, 0, 1, 3,
+    3, 0, 1, 4, 2
+  ];
+
+  const processedMCQs = rawQuestions.map((qObj, index) => {
+    const targetCorrectIndex = randomizedAnswerPattern[index];
+    const correctOpt = qObj.options.find(o => o.isCorrect);
+    const incorrectOpts = qObj.options.filter(o => !o.isCorrect);
+
+    const shuffledIncorrect = [...incorrectOpts].sort((a, b) => a.text.length - b.text.length);
+
+    const newOptions = [];
+    let incCounter = 0;
+    for (let pos = 0; pos < 5; pos++) {
+      if (pos === targetCorrectIndex) {
+        newOptions.push(correctOpt);
+      } else {
+        newOptions.push(shuffledIncorrect[incCounter++]);
+      }
+    }
+
+    return {
+      q: qObj.q,
+      options: newOptions,
+      correct: targetCorrectIndex
+    };
+  });
+
+  let currentScore = 0;
+  const answeredSet = new Set();
+
+  function renderMCQs() {
+    const container = document.getElementById('mcq-container');
+    processedMCQs.forEach((item, index) => {
+      const card = document.createElement('div');
+      card.className = 'mcq-card';
+      card.id = `mcq-${index}`;
+
+      let optionsHTML = '';
+      item.options.forEach((opt, optIdx) => {
+        const letter = String.fromCharCode(65 + optIdx);
+        optionsHTML += `
+          <button class="option-btn" id="opt-${index}-${optIdx}" onclick="handleOptionSelect(${index}, ${optIdx})">
+            <span class="option-letter">(${letter})</span>
+            <span>${opt.text}</span>
+          </button>
+        `;
+      });
+
+      let rationalesHTML = '';
+      item.options.forEach((opt, rIdx) => {
+        const l = String.fromCharCode(65 + rIdx);
+        rationalesHTML += `
+          <div class="explanation-item">
+            <strong>(${l})</strong> ${opt.rat}
+          </div>
+        `;
+      });
+
+      card.innerHTML = `
+        <div class="question-header">
+          <span class="question-tag">USMLE Vignette ${index + 1} of 30</span>
+        </div>
+        <div class="question-stem">${item.q}</div>
+        <div class="options-grid">${optionsHTML}</div>
+        <div class="explanation-box" id="expl-${index}">
+          <h4>Detailed Option Explanations</h4>
+          ${rationalesHTML}
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  function handleOptionSelect(qIdx, selectedOptIdx) {
+    if (answeredSet.has(qIdx)) return;
+    answeredSet.add(qIdx);
+
+    const q = processedMCQs[qIdx];
+    const isCorrect = selectedOptIdx === q.correct;
+    const selectedBtn = document.getElementById(`opt-${qIdx}-${selectedOptIdx}`);
+    const correctBtn = document.getElementById(`opt-${qIdx}-${q.correct}`);
+
+    for (let i = 0; i < q.options.length; i++) {
+      document.getElementById(`opt-${qIdx}-${i}`).disabled = true;
+    }
+
+    if (isCorrect) {
+      selectedBtn.classList.add('selected-correct');
+      currentScore++;
+      document.getElementById('user-score').innerText = currentScore;
+    } else {
+      selectedBtn.classList.add('selected-incorrect');
+      correctBtn.classList.add('highlight-correct');
+    }
+
+    document.getElementById(`expl-${qIdx}`).style.display = 'block';
+  }
+
+  const matchingData = [
+    { id: 1, term: "Myocardial β1 Adrenergic Receptor", correct: "C", desc: "Coupled to Gs; stimulates adenylyl cyclase to increase cAMP, yielding positive chronotropy, inotropy, and dromotropy[cite: 1, 3, 5]." },
+    { id: 2, term: "Cardiac M2 Muscarinic Receptor", correct: "H", desc: "Coupled to Gi; decreases cAMP and opens GIRK channels, causing hyperpolarization and negative chronotropy/dromotropy[cite: 1, 3, 5]." },
+    { id: 3, term: "Vascular α1 Adrenergic Receptor", correct: "A", desc: "Coupled to Gq; stimulates Phospholipase C (IP3/DAG) to increase cytosolic Ca2+, producing arteriolar and venous vasoconstriction[cite: 1, 3, 6]." },
+    { id: 4, term: "Arterial β2 Adrenergic Receptor", correct: "E", desc: "Coupled to Gs; activated by epinephrine in skeletal muscle and liver vasculature to stimulate cAMP, inhibiting MLCK and relaxing smooth muscle[cite: 1, 6]." },
+    { id: 5, term: "Nitric Oxide (Endothelial Derived)", correct: "G", desc: "Diffuses to vascular smooth muscle to activate soluble guanylyl cyclase, elevating cGMP and activating MLCP to cause vasorelaxation[cite: 6]." },
+    { id: 6, term: "Endothelin-1", correct: "B", desc: "Potent endothelial 21-amino-acid peptide acting via Gq-coupled ETA/ETB receptors to evoke intense, sustained vasoconstriction[cite: 6]." },
+    { id: 7, term: "Arginine Vasopressin (V1 Receptor)", correct: "J", desc: "Expressed on vascular smooth muscle; acts via Gq/IP3 to induce arteriolar vasoconstriction and elevate SVR during hypotension[cite: 3, 6]." },
+    { id: 8, term: "Arginine Vasopressin (V2 Receptor)", correct: "D", desc: "Expressed in renal collecting ducts; couples to Gs/cAMP to insert Aquaporin-2 water channels into the apical membrane, reabsorbing free water[cite: 3]." },
+    { id: 9, term: "Atrial Natriuretic Peptide (ANP)", correct: "I", desc: "Released by stretched atrial myocytes; binds NPR receptors (guanylyl cyclase), suppresses renin/aldosterone, and increases GFR to promote natriuresis[cite: 3, 6]." },
+    { id: 10, term: "Carotid Sinus Baroreceptor (CN IX)", correct: "F", desc: "High-pressure stretch mechanoreceptor that projects via the nerve of Hering to the medullary NTS to regulate beat-to-beat blood pressure[cite: 1, 3]." }
+  ];
+
+  const matchingOptions = [
+    { code: "A", text: "Gq-coupled; IP3/DAG-mediated Ca2+ increase evoking arteriolar and venous vasoconstriction[cite: 1, 3, 6]" },
+    { code: "B", text: "Endothelial 21-AA peptide; acts on Gq-coupled ETA/ETB receptors to cause intense vasoconstriction[cite: 6]" },
+    { code: "C", text: "Gs-coupled; stimulates adenylyl cyclase/cAMP, producing positive chronotropy and inotropy[cite: 1, 3, 5]" },
+    { code: "D", text: "Gs-coupled; acts on renal collecting ducts to insert Aquaporin-2 channels and conserve pure water[cite: 3]" },
+    { code: "E", text: "Gs-coupled; activated by epinephrine to relax smooth muscle in skeletal muscle and liver beds[cite: 1, 6]" },
+    { code: "F", text: "High-pressure stretch receptor projecting via CN IX to the medullary NTS for beat-to-beat MAP control[cite: 1, 3]" },
+    { code: "G", text: "Diffuses to VSM to activate soluble guanylyl cyclase, elevating cGMP and stimulating MLCP vasodilation[cite: 6]" },
+    { code: "H", text: "Gi-coupled; reduces cAMP and opens GIRK channels, slowing heart rate and AV conduction[cite: 1, 3, 5]" },
+    { code: "I", text: "Released by atrial stretch; acts via guanylyl cyclase to inhibit renin/aldosterone and promote natriuresis[cite: 3, 6]" },
+    { code: "J", text: "Gq-coupled; acts on vascular smooth muscle to cause vasoconstriction during severe hypotension[cite: 3, 6]" }
+  ];
+
+  function renderMatching() {
+    const container = document.getElementById('matching-list');
+    matchingData.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'matching-row';
+      
+      let selectOptions = '<option value="">-- Choose matching mechanism & function --</option>';
+      matchingOptions.forEach(opt => {
+        selectOptions += `<option value="${opt.code}">(${opt.code}) ${opt.text}</option>`;
+      });
+
+      row.innerHTML = `
+        <div><strong>${item.id}. ${item.term}</strong></div>
+        <div>
+          <select id="match-select-${item.id}">
+            ${selectOptions}
+          </select>
+          <div id="match-feedback-${item.id}" style="font-size: 0.85rem; margin-top: 6px; display: none;"></div>
+        </div>
+      `;
+      container.appendChild(row);
+    });
+  }
+
+  function checkMatchingAnswers() {
+    matchingData.forEach(item => {
+      const select = document.getElementById(`match-select-${item.id}`);
+      const feedback = document.getElementById(`match-feedback-${item.id}`);
+      feedback.style.display = 'block';
+
+      if (select.value === item.correct) {
+        select.style.borderColor = 'var(--success-border)';
+        select.style.background = 'var(--success-bg)';
+        feedback.innerHTML = `<span style="color: var(--success-text);">✓ Correct! ${item.desc}</span>`;
+      } else {
+        select.style.borderColor = 'var(--danger-border)';
+        select.style.background = 'var(--danger-bg)';
+        feedback.innerHTML = `<span style="color: var(--danger-text);">✗ Correct is (${item.correct}): ${item.desc}</span>`;
+      }
+    });
+  }
+
+  function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+
+    const activeNavBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => 
+      b.getAttribute('onclick').includes(tabId)
+    );
+    if (activeNavBtn) activeNavBtn.classList.add('active');
+  }
+
+  function toggleVisibility(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    renderMCQs();
+    renderMatching();
+  });
+</script>
+
+</body>
+</html>
